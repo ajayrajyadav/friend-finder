@@ -1,6 +1,8 @@
 $(document).ready(function () {
+    
+
     buildhtml();
-    // $('select').formSelect();
+    
     
 
     function buildhtml(){
@@ -37,8 +39,13 @@ $(document).ready(function () {
         $('select').formSelect();
 
         var questionFormContainer = $("#survey-contianer");
-
+        //for loop will go here...
         buildQuestions(questionFormContainer, 2, "some New survey question");
+
+        $("#the-form").append($("<div>").addClass("row").attr("id","btn-row"));
+        $("#btn-row").append($("<div>").addClass("row").attr("id","btn-panel"));
+        $("#btn-panel").append($("<button>").addClass("btn waves-effect waves-light, center-align").attr({type: "submit", name:"action", id: "submit-btn"}).html("Submit"));
+    
 
    
     }
@@ -49,7 +56,7 @@ $(document).ready(function () {
         questionForm.append($("<div>").addClass("input-field col s12").attr("id","survey-row"+questionNumber));
 
 
-        $("#survey-row"+questionNumber).append($("<select>").attr("id","question-"+questionNumber));
+        $("#survey-row"+questionNumber).append($("<select>").addClass("browswer-default").attr("id","question-"+questionNumber));
         $("#question-"+questionNumber).append($("<option>").attr({"value": "", disabled: "true", selected: "true"}).html("choose your option"));
         $("#question-"+questionNumber).append($("<option>").attr("value", "1").html("Strongly Agree"));
         $("#question-"+questionNumber).append($("<option>").attr("value", "2").html("Somewhat Agree"));
@@ -66,5 +73,53 @@ $(document).ready(function () {
         // $("#survey-row"+questionNumber).append($("<label>").html(questionString));
         // $('select').formSelect();
     }
+
+    $(document).on("click", "#submit-btn", function () {
+        if(validateForm()){
+            var newFriend = {
+                name: $("name").val().trim(),
+                provilePic: $("photo").val().trim()
+                scores: [
+                    $('#q1').val(),
+                    $('#q2').val(),
+                    $('#q3').val(),
+                    $('#q4').val(),
+                    $('#q5').val(),
+                    $('#q6').val(),
+                    $('#q7').val(),
+                    $('#q8').val(),
+                    $('#q9').val(),
+                    $('#q10').val(),
+                ]
+            }
+            var currentURL = window.location.origin;
+            $.post(currentURL + "/api/friends", newFriend, function(data) {
+                //Grab the result from the AJAX post so that the best match's name and photo are displayed.
+                $("#matchName").text(data.name);
+                $("#matchPic").attr("src", data.profilePic);
+            });
+            $('.modal').modal();
+        }else{
+            //add modal ***** to Do ****
+            console.log("please fill out all the fields before submitting survey")
+        }
+    });
+
+    function validateForm(){
+        var isValid = true;
+        $(".validate").each(function(){
+            if($(this).val()=== ""){
+                isValid = false;
+            }
+        });
+
+        $(".browser-default").each(function(){
+            if($("this").val()===""){
+                isValid = false;
+            }
+        })
+        return isValid;
+    }
+
         
 });
