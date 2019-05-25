@@ -24,11 +24,11 @@ $(document).ready(function () {
         },
         {
             qNumber: 6,
-            qString: "You rarely get carried away by fantasies and ideas."
+            qString: "I rarely get carried away by fantasies and ideas."
         },
         {
             qNumber: 7,
-            qString: "You feel more energetic after spending time with a group of people."
+            qString: "I feel more energetic after spending time with a group of people."
         },
         {
             qNumber: 8,
@@ -99,6 +99,7 @@ $(document).ready(function () {
     }
 
     $(document).on("click", "#submit-btn", function () {
+
         if(validateForm()){
             var newFriend = {
                 name: $("name").val().trim(),
@@ -138,7 +139,7 @@ $(document).ready(function () {
         });
 
         $(".browswer-default").each(function(){
-            alert($("this").value())
+            // alert($(this).val())
             // console.log($("this").value());
             
             if($("this").value()===""){

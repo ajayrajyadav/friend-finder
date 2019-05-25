@@ -1,10 +1,13 @@
 var friendsList = require("../data/friends")
+
 module.exports = function(app){
-    app.get("api/friends", function(request, response){
-        response.json(friendList);
+    app.get("/api/friends", function(request, response){
+        console.log(friendsList);
+        
+        response.json(friendsList);
     });
 
-    app.post("api/friends", function(request, response){
+    app.post("/api/friends", function(request, response){
         //lets grab new friends score so we can compare it to the ones we already have
         let newFriendScores =  request.body.scores;
         let bestMatch = 0;
@@ -19,7 +22,7 @@ module.exports = function(app){
         }
 
         for (let i = 0; i < scoresArray.length; i++) {
-            if(scoresArray[i] <= scoresArray[bestmatch]){
+            if(scoresArray[i] <= scoresArray[bestMatch]){
                 bestMatch = i;
             }
         }

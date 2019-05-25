@@ -16,4 +16,6 @@ var friendList = [
             1
         ]
     }
-]
+];
+
+module.exports = friendList;
