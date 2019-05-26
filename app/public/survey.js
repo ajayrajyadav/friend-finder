@@ -76,7 +76,7 @@ $(document).ready(function () {
 
         $("#the-form").append($("<div>").addClass("row").attr("id","btn-row"));
         $("#btn-row").append($("<div>").addClass("row").attr("id","btn-panel"));
-        $("#btn-panel").append($("<button>").addClass("btn waves-effect waves-light, center-align").attr({type: "submit", name:"action", id: "submit-btn"}).html("Submit"));
+        $("#btn-panel").append($("<button>").addClass("btn waves-effect waves-light, center-align").attr({type: "submit", name:"action", id: "submitBtn"}).html("Submit"));
 
     }
 
@@ -98,12 +98,28 @@ $(document).ready(function () {
 
     }
 
-    $(document).on("click", "#submit-btn", function () {
+    function buildModal(nameString, profilePicURL){
+        $("#bffModal").empty();
+        $("body").append($("<div>").addClass("modal").attr("id", "bffModal"));
+        $("#bffModal").append($("<div>").addClass("modal-content").attr("id", "bff-content"));
+        $("#bff-content").append($("<h4>").html("Meet Your New Friend"));
+        $("#bff-content").append($("<h5>").attr("id", "matchName").html(nameString));
+        $("#bff-content").append($("<img>").attr({"id": "matchPic", src: profilePicURL, alt="No Image", width: "250px"}));
+        $("#bffModal").append($("<div>").addClass("modal-footer").attr("id", "bff-footer"));
+        $("#bff-footer").append($("<a>").addClass("modal-action modal-close waves-effect waves-green btn-flat").html("Done"));
 
-        if(validateForm()){
+        
+    }
+
+    $(document).on("click", "#submitBtn", function () {
+        event.preventDefault();
+
+        console.log($("#name").val().trim());
+
+        if (validateForm()) {
             var newFriend = {
-                name: $("name").val().trim(),
-                provilePic: $("photo").val().trim(),
+                name: $("#name").val().trim(),
+                profilePic: $("#photo").val().trim(),
                 scores: [
                     $('#question-1').val(),
                     $('#question-2').val(),
@@ -117,32 +133,39 @@ $(document).ready(function () {
                     $('#question-10').val(),
                 ]
             }
+            // var deletethisfriend = {
+            //     name: "aaron",
+            //     prfilePic: "https://via.placeholder.com/150",
+            //     scores: ["3", "1", "2", "4", "4", "3", "2", "1", "2", "3"]
+            // }
             var currentURL = window.location.origin;
-            $.post(currentURL + "/api/friends", newFriend, function(data) {
+            $.post(currentURL + "/api/friends", newFriend, function (data) {
                 //Grab the result from the AJAX post so that the best match's name and photo are displayed.
-                $("#matchName").text(data.name);
-                $("#matchPic").attr("src", data.profilePic);
+                // $("#matchName").text(data.name);
+                // $("#matchPic").attr("src", data.profilePic);
+                buildModal(data.name, data.profilePic)
             });
-            $('.modal').modal();
-        }else{
+            $(".modal").modal();
+            $('#bffModal').modal('open');
+        } else {
             //add modal ***** to Do ****
             console.log("please fill out all the fields before submitting survey")
         }
     });
 
-    function validateForm(){
+    function validateForm() {
         var isValid = true;
-        $(".validate").each(function(){
-            if($(this).val()=== ""){
+        $(".validate").each(function () {
+            if ($(this).val() === "") {
                 isValid = false;
             }
         });
 
-        $(".browswer-default").each(function(){
+        $(".browswer-default").each(function () {
             // alert($(this).val())
             // console.log($("this").value());
-            
-            if($("this").value()===""){
+
+            if ($("this").value() === "") {
                 isValid = false;
             }
         })
