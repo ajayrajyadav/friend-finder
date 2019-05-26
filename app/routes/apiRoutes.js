@@ -1,10 +1,16 @@
 var friendsList = require("../data/friends")
+var questionList = require("../data/questions")
 
 module.exports = function(app){
     app.get("/api/friends", function(request, response){
         console.log(friendsList);
         
         response.json(friendsList);
+    });
+
+    app.get("/api/questions", function(request, response){
+        console.log(questionList);
+        response.json(questionList);
     });
 
     app.post("/api/friends", function(request, response){

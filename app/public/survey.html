@@ -20,7 +20,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-
+            //my question list ***TODO (future): get this list through the API **
             var questionList = [
                 {
                     qNumber: 1,
@@ -119,6 +119,7 @@
             }
 
             function buildModal(nameString, profilePicURL) {
+                console.log("picurl : "+ profilePicURL);
                 $("#bffModal").empty();
                 $("body").append($("<div>").addClass("modal").attr("id", "bffModal"));
                 $("#bffModal").append($("<div>").addClass("modal-content").attr("id", "bff-content"));
@@ -169,13 +170,8 @@
 
                     var currentURL = window.location.origin;
                     $.post(currentURL + "/api/friends", newFriend, function (data) {
-                        //Grab the result from the AJAX post so that the best match's name and photo are displayed.
-                        // $("#matchName").text(data.name);
-                        // $("#matchPic").attr("src", data.profilePic);
-                        buildModal(data.name, data.profilePic)
+                        buildModal(data.name, data.photo)
                     });
-                    $(".modal").modal();
-                    $('#bffModal').modal('open');
                 } else {
                     errorModal("please fill out all the fields before submitting survey");
                     console.log("please fill out all the fields before submitting survey");
@@ -191,9 +187,6 @@
                 });
 
                 $(".browswer-default").each(function () {
-                    // alert($(this).val())
-                    console.log($(this).val());
-
                     if (($(this).val() === "") || ($(this).val() === null)) {
                         isValid = false;
                     }

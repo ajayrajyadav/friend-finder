@@ -39,4 +39,6 @@ var questionList = [
         qNumber: 10,
         qString: "I prefer indoor activity over outdoor activity."
     },
-]
+];
+
+module.exports = questionList;
