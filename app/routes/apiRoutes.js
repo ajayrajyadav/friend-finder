@@ -29,6 +29,8 @@ module.exports = function(app){
 
         var matchedFriend = friendsList[bestMatch]
         response.json(matchedFriend);
+
+        friendsList.push(request.body);
         
     });
 }
